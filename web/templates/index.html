@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Art Interface</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="card">
+        <h1>Art Interface</h1>
+        <p class="subtitle">Encode or decode text-art patterns with one click.</p>
+
+        <form action="/decoder" method="post" class="form">
+          <label for="input">Input</label>
+          <textarea id="input" name="input" rows="8" placeholder="Example decode: [5 #][5 -_]-[5 #]">{{.Input}}</textarea>
+
+          <div class="row">
+            <label><input type="radio" name="mode" value="decode" {{if or (eq .Mode "") (eq .Mode "decode")}}checked{{end}} /> Decode</label>
+            <label><input type="radio" name="mode" value="encode" {{if eq .Mode "encode"}}checked{{end}} /> Encode</label>
+            <label><input type="checkbox" name="multiline" {{if .Multiline}}checked{{end}} /> Multiline (literal \n)</label>
+          </div>
+
+          <button type="submit">Generate</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Latest Response</h2>
+        <p class="status">HTTP {{.StatusCode}}</p>
+        {{if .ErrorText}}
+        <pre class="result error">{{.ErrorText}}</pre>
+        {{else}}
+        <pre class="result">{{.Result}}</pre>
+        {{end}}
+      </section>
+    </main>
+  </body>
+</html>
